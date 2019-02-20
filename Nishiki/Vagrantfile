@@ -1,0 +1,48 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  # an alternative to this Ubuntu 14.04 box is the "v0rtex/xenial64" with the 16.04 LTS
+  config.vm.box = "ubuntu/xenial64" 
+  # access a port on your host machine (via localhost) and have all data forwarded to a port on the guest machine.
+  config.vm.network "forwarded_port", guest: 9093, host: 9093
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  #config.vm.network "private_network", ip: "192.168.188.110"
+  # Config de ssh username
+  #config.ssh.username = "Arima"
+  # Config de hostname
+  config.vm.hostname = "Nishiki"
+  #define a larger than default (40GB) disksize
+  config.disksize.size = '8GB'
+  
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = 'Nishiki'
+    vb.memory = 1024
+    vb.cpus = 1
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  end
+  
+  # set up Docker in the new VM:
+
+  $script = <<-SCRIPT
+  echo Update the machine
+  sudo apt-get update 
+  sudo apt install apt-transport-https ca-certificates curl software-properties-common
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+  sudo apt update
+  apt-cache policy docker-ce
+  sudo apt install docker-ce -y
+
+ SCRIPT
+  config.vm.provision "shell", inline: $script
+
+end
