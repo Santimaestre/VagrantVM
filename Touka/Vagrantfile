@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-# docker swarm join --token SWMTKN-1-3woayft7u7o2if0jt7d9jsisgy9jqyx7owb7xi2ytghblz61tf-5cpl32r4bqfziiie7phluyvxa 172.17.0.1:2377
+# docker swarm join --token SWMTKN-1-62lpz4dybueqgy92ebk45v5unq75thdth9s4er87erkf96kylc-edv0d4tq9e3g0sxwkvhovmkdg 172.17.0.1:2377
 
 Vagrant.configure(2) do |config|
   # The most common configuration options are documented and commented below.
